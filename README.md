@@ -1,13 +1,13 @@
-Ama's Designs — simple static site
+thegenelbrand — simple static site
 
 Files:
-- index.html — home / hero / featured / about preview
-- portfolio.html — portfolio gallery
-- about.html — about page
-- contact.html — contact form (mailto)
+- index.php — home / hero / featured / about preview
+- portfolio.php — portfolio gallery
+- about.php — about page
+- contact.php — contact form (mailto)
 - scripts/app.js — small JS for mobile menu and smooth scroll
 
-Usage: open `index.html` in a browser or serve the folder with a static server (e.g., from the project root run `npx http-server` or use XAMPP as this repo is under htdocs).
+Usage: open xampp/wampp and launch the apache server and mysql server. Open a browser of your choice and type 'localhost/thegenelbrand'.
 
 Tailwind is included via CDN for quick styling.
 # thegenelbrand
