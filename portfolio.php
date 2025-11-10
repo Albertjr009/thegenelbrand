@@ -14,38 +14,41 @@
   include_once __DIR__ . '/includes/header.php';
   ?>
 
-  <main class="max-w-6xl mx-auto px-6 py-12">
+    <main class="max-w-6xl mx-auto px-6 py-12">
+    <?php
+  $contentPath = __DIR__ . '/content/site.json';
+  $items = [];
+  if (file_exists($contentPath)) {
+    $data = json_decode(file_get_contents($contentPath), true);
+    if (!empty($data['portfolio']) && is_array($data['portfolio'])) {
+      $items = $data['portfolio'];
+    }
+  }
+    ?>
+
     <h1 class="text-3xl font-bold mb-6">Portfolio</h1>
     <p class="text-gray-700 mb-8">A curated selection of recent collections and commissioned pieces.</p>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Repeat items -->
-      <article class="rounded overflow-hidden shadow-sm">
-        <img src="https://images.unsplash.com/photo-1520975918595-3b9f9bf9d7e4?auto=format&fit=crop&w=1200&q=60"
-          alt="Work 1" class="w-full h-64 object-cover" />
-        <div class="p-4">
-          <h3 class="font-semibold">Evening Gown</h3>
-          <p class="text-sm text-gray-600 mt-1">Hand-stitched detailing and silk lining.</p>
-        </div>
-      </article>
-
-      <article class="rounded overflow-hidden shadow-sm">
-        <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1200&q=60"
-          alt="Work 2" class="w-full h-64 object-cover" />
-        <div class="p-4">
-          <h3 class="font-semibold">Tradition Reimagined</h3>
-          <p class="text-sm text-gray-600 mt-1">Modern silhouettes with artisanal prints.</p>
-        </div>
-      </article>
-
-      <article class="rounded overflow-hidden shadow-sm">
-        <img src="https://images.unsplash.com/photo-1535968889977-0f4e0b49f3a4?auto=format&fit=crop&w=1200&q=60"
-          alt="Work 3" class="w-full h-64 object-cover" />
-        <div class="p-4">
-          <h3 class="font-semibold">Daywear Collection</h3>
-          <p class="text-sm text-gray-600 mt-1">Lightweight, sustainable fabrics.</p>
-        </div>
-      </article>
+      <?php if (empty($items)): ?>
+        <article class="rounded overflow-hidden shadow-sm">
+          <img src="https://images.unsplash.com/photo-1520975918595-3b9f9bf9d7e4?auto=format&fit=crop&w=1200&q=60" alt="Work 1" class="w-full h-64 object-cover" />
+          <div class="p-4">
+            <h3 class="font-semibold">Evening Gown</h3>
+            <p class="text-sm text-gray-600 mt-1">Hand-stitched detailing and silk lining.</p>
+          </div>
+        </article>
+      <?php else: ?>
+        <?php foreach ($items as $it): ?>
+          <article class="rounded overflow-hidden shadow-sm">
+            <img src="<?php echo htmlspecialchars($it['image']); ?>" alt="<?php echo htmlspecialchars($it['title']); ?>" class="w-full h-64 object-cover" />
+            <div class="p-4">
+              <h3 class="font-semibold"><?php echo htmlspecialchars($it['title']); ?></h3>
+              <p class="text-sm text-gray-600 mt-1"><?php echo htmlspecialchars($it['caption']); ?></p>
+            </div>
+          </article>
+        <?php endforeach; ?>
+      <?php endif; ?>
 
     </div>
   </main>

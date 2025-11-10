@@ -1,0 +1,23 @@
+{
+  "about": {
+    "heading": "Hi, I'm Genevieve",
+    "text": "I'm a passionate fashion designer focused on creating garments that tell stories — combining handcrafted techniques with contemporary lines to produce wearable art."
+  },
+  "portfolio": [
+    {
+      "image": "assets/images/project1.jpg",
+      "title": "Evening Gown",
+      "caption": "Hand-stitched detailing and silk lining."
+    },
+    {
+      "image": "assets/images/project2.jpg",
+      "title": "Tradition Reimagined",
+      "caption": "Modern silhouettes with artisanal prints."
+    },
+    {
+      "image": "assets/images/project3.jpg",
+      "title": "Daywear Collection",
+      "caption": "Lightweight, sustainable fabrics."
+    }
+  ]
+}

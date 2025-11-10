@@ -80,6 +80,51 @@ if (!empty($firstname)) {
             </div>
         </div>
     </nav>
+    <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Content Management -->
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-bold mb-4">Content Management</h2>
+                <ul class="space-y-4">
+                    <li>
+                        <a href="edit_about.php" 
+                           class="block bg-blue-500 hover:bg-blue-600 text-white rounded p-4 transition duration-200">
+                            <span class="font-bold">Edit About Content</span>
+                            <p class="text-sm opacity-90 mt-1">Update your bio and profile image</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="manage_portfolio.php"
+                           class="block bg-purple-500 hover:bg-purple-600 text-white rounded p-4 transition duration-200">
+                            <span class="font-bold">Manage Portfolio</span>
+                            <p class="text-sm opacity-90 mt-1">Add, edit, or remove portfolio items</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Admin Tools -->
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-bold mb-4">Admin Tools</h2>
+                <ul class="space-y-4">
+                    <li>
+                        <a href="change_password.php"
+                           class="block bg-gray-500 hover:bg-gray-600 text-white rounded p-4 transition duration-200">
+                            <span class="font-bold">Change Password</span>
+                            <p class="text-sm opacity-90 mt-1">Update your admin password</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="logout.php"
+                           class="block bg-red-500 hover:bg-red-600 text-white rounded p-4 transition duration-200">
+                            <span class="font-bold">Logout</span>
+                            <p class="text-sm opacity-90 mt-1">Sign out of the admin panel</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <script src="assets/js/app.js"></script>
 </body>
 
