@@ -13,7 +13,6 @@ if (!empty($_SESSION['admin_id'])) {
     $stmt->fetch();
     $stmt->close();
 } elseif (!empty($_SESSION['admin_name'])) {
-    // fallback: look up by username if admin_id isn't set
     $stmt = $conn->prepare("SELECT firstname, lastname FROM admins WHERE username = ? LIMIT 1");
     $stmt->bind_param("s", $_SESSION['admin_name']);
     $stmt->execute();
@@ -22,7 +21,6 @@ if (!empty($_SESSION['admin_id'])) {
     $stmt->close();
 }
 
-// compute initial for avatar (fallback to 'A')
 $initial = 'A';
 if (!empty($firstname)) {
     $initial = strtoupper(substr($firstname, 0, 1));
@@ -31,101 +29,183 @@ if (!empty($firstname)) {
 }
 ?>
 
+<?php include 'includes/header.php'; ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Admin | thegenelbrand</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel="icon" href="assets/images/genelLogo.jpg" type="image/x-icon">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
+<!-- Main Dashboard Content -->
+<div class="space-y-6">
+    <!-- Header Section -->
+    <div>
+        <h1 class="text-3xl font-bold text-gray-900">Welcome back, <?php echo htmlspecialchars($firstname, ENT_QUOTES, 'UTF-8'); ?></h1>
+        <p class="text-gray-600 mt-1">Here's your admin dashboard overview</p>
+    </div>
 
-<body>
-    <nav class="bg-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <h2 class="text-2xl font-bold text-gray-800">Dashboard</h2>
+    <!-- Metric Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Card 1: Portfolio Items -->
+        <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6 hover:shadow-md transition">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Portfolio Items</p>
+                    <p class="text-2xl font-bold text-gray-900 mt-1">
+                        <?php 
+                        $result = $conn->query("SELECT COUNT(*) as count FROM portfolio_items");
+                        $row = $result->fetch_assoc();
+                        echo $row['count'];
+                        ?>
+                    </p>
+                </div>
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-briefcase text-blue-600 text-lg"></i>
+                </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-4">Active projects in portfolio</p>
+        </div>
+
+        <!-- Card 2: Last Updated -->
+        <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6 hover:shadow-md transition">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">About Section</p>
+                    <p class="text-lg font-bold text-gray-900 mt-1">
+                        <?php 
+                        $result = $conn->query("SELECT COUNT(*) as count FROM about_content");
+                        $row = $result->fetch_assoc();
+                        echo $row['count'] > 0 ? 'Updated' : 'Pending';
+                        ?>
+                    </p>
+                </div>
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-user-circle text-purple-600 text-lg"></i>
+                </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-4">Profile information</p>
+        </div>
+
+        <!-- Card 3: Storage -->
+        <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6 hover:shadow-md transition">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">System Status</p>
+                    <p class="text-lg font-bold text-green-600 mt-1">Active</p>
+                </div>
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-check-circle text-green-600 text-lg"></i>
+                </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-4">All systems operational</p>
+        </div>
+
+        <!-- Card 4: Quick Action -->
+        <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6 hover:shadow-md transition">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Content Manager</p>
+                    <p class="text-lg font-bold text-gray-900 mt-1">Ready</p>
+                </div>
+                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-cogs text-orange-600 text-lg"></i>
+                </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-4">All features available</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- About Section Card -->
+        <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden hover:shadow-lg transition">
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-2"></div>
+            <div class="p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900">About Section</h3>
+                        <p class="text-sm text-gray-600 mt-1">Update your profile heading, bio, and image</p>
+                    </div>
+                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-user-circle text-blue-600"></i>
                     </div>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <div class="relative">
-                        <button id="profileBtn"
-                            class="flex items-center gap-2 text-sm rounded px-3 py-1 hover:bg-gray-100 focus:outline-none"
-                            aria-expanded="false" aria-haspopup="true">
-                            <span
-                                class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-sm"><?php echo $initial; ?></span>
-                            <span class="text-sm text-gray-700"><?php echo htmlspecialchars($firstname ? $firstname : $_SESSION['admin_name'], ENT_QUOTES, 'UTF-8'); ?></span>
-                            <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-
-                        <div id="profileDropdown"
-                            class="hidden absolute right-0 mt-2 w-44 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 py-1">
-                            <a href="profile.php"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile Settings</a>
-                            <a href="logout.php"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
-                        </div>
-                    </div>
-                </div>
+                <a href="edit_about.php" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium text-sm">
+                    <i class="fas fa-edit mr-2"></i>Edit Now
+                </a>
             </div>
         </div>
-    </nav>
-    <div class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Content Management -->
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-xl font-bold mb-4">Content Management</h2>
-                <ul class="space-y-4">
-                    <li>
-                        <a href="edit_about.php" 
-                           class="block bg-blue-500 hover:bg-blue-600 text-white rounded p-4 transition duration-200">
-                            <span class="font-bold">Edit About Content</span>
-                            <p class="text-sm opacity-90 mt-1">Update your bio and profile image</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="manage_portfolio.php"
-                           class="block bg-purple-500 hover:bg-purple-600 text-white rounded p-4 transition duration-200">
-                            <span class="font-bold">Manage Portfolio</span>
-                            <p class="text-sm opacity-90 mt-1">Add, edit, or remove portfolio items</p>
-                        </a>
-                    </li>
-                </ul>
+
+        <!-- Portfolio Section Card -->
+        <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden hover:shadow-lg transition">
+            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-2"></div>
+            <div class="p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900">Portfolio Items</h3>
+                        <p class="text-sm text-gray-600 mt-1">Create, edit, and manage your portfolio projects</p>
+                    </div>
+                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-briefcase text-purple-600"></i>
+                    </div>
+                </div>
+                <a href="manage_portfolio.php" class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition font-medium text-sm">
+                    <i class="fas fa-plus mr-2"></i>Manage Items
+                </a>
             </div>
-            
-            <!-- Admin Tools -->
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-xl font-bold mb-4">Admin Tools</h2>
-                <ul class="space-y-4">
-                    <li>
-                        <a href="change_password.php"
-                           class="block bg-gray-500 hover:bg-gray-600 text-white rounded p-4 transition duration-200">
-                            <span class="font-bold">Change Password</span>
-                            <p class="text-sm opacity-90 mt-1">Update your admin password</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="logout.php"
-                           class="block bg-red-500 hover:bg-red-600 text-white rounded p-4 transition duration-200">
-                            <span class="font-bold">Logout</span>
-                            <p class="text-sm opacity-90 mt-1">Sign out of the admin panel</p>
-                        </a>
-                    </li>
-                </ul>
+        </div>
+
+        <!-- Settings Section Card -->
+        <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden hover:shadow-lg transition">
+            <div class="bg-gradient-to-r from-orange-500 to-orange-600 h-2"></div>
+            <div class="p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900">Settings</h3>
+                        <p class="text-sm text-gray-600 mt-1">Manage your account security and preferences</p>
+                    </div>
+                    <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-cogs text-orange-600"></i>
+                    </div>
+                </div>
+                <a href="change_password.php" class="inline-flex items-center px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition font-medium text-sm">
+                    <i class="fas fa-lock mr-2"></i>Secure
+                </a>
             </div>
         </div>
     </div>
-    <script src="assets/js/app.js"></script>
-</body>
 
-</html>
+    <!-- Recent Activity Section -->
+    <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
+        <h3 class="text-lg font-bold text-gray-900 mb-4">Recent Updates</h3>
+        <div class="space-y-4">
+            <div class="flex items-start gap-4 pb-4 border-b border-gray-200">
+                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-image text-blue-600"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="font-medium text-gray-900">Content Management System Active</p>
+                    <p class="text-sm text-gray-600">Your admin panel is ready to use</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-4 pb-4 border-b border-gray-200">
+                <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-briefcase text-purple-600"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="font-medium text-gray-900">Portfolio Management Ready</p>
+                    <p class="text-sm text-gray-600">Add and manage your portfolio items</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-4">
+                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-check-circle text-green-600"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="font-medium text-gray-900">System Status</p>
+                    <p class="text-sm text-gray-600">All systems operational and ready</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div><!-- End Page Content -->
+</div><!-- End Main Content Area -->
+
+<?php include 'includes/footer.php'; ?>

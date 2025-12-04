@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/includes/config.php';
+include_once __DIR__ . '/includes/db_connect.php';
 
 // Get about content
 $sql = "SELECT * FROM about_content WHERE id = 1";

@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/includes/config.php';
+include_once __DIR__ . '/includes/db_connect.php';
 
 // Get about content
 $sql = "SELECT * FROM about_content WHERE id = 1";
@@ -20,7 +20,7 @@ while ($row = $result->fetch_assoc()) {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>thegenelbrand — Fashion Designer</title>
+    <title>thegenelbrand | Fashion Designer</title>
     <meta name="description" content="thegenelbrand — Creative Fashion Designer blending tradition with modern elegance." />
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="icon" href="assets/images/genelLogo.jpg" />
