@@ -12,7 +12,6 @@ export default function Header() {
         <nav className="site-nav">
           <a href="#portfolio" className="nav-link">Work</a>
           <a href="#about" className="nav-link">About</a>
-          <a href="/admin" className="nav-link">Admin</a>
           <a href="#contact" className="button button-dark">Contact</a>
         </nav>
       </div>
