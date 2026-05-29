@@ -1,33 +1,5 @@
-const projects = [
-  {
-    title: 'Quiet Structure',
-    type: 'Tailoring capsule',
-    detail: 'Wool suiting, hand-finished hems, detachable collar study',
-    image:
-      'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    title: 'Second Skin',
-    type: 'Sustainable textiles',
-    detail: 'Reworked denim, natural dye tests, zero-waste panel layout',
-    image:
-      'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    title: 'Studio Movement',
-    type: 'Editorial lookbook',
-    detail: 'Six-look story exploring volume, shadow, and motion',
-    image:
-      'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    title: 'Drape Notes',
-    type: 'Process study',
-    detail: 'Muslin experiments translated into asymmetric daywear',
-    image:
-      'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=900&q=80',
-  },
-]
+import { useEffect, useState } from 'react'
+import { getPublishedWorks } from '../lib/portfolioApi'
 
 const Project = ({ title, type, detail, image }) => (
   <article className="project-card">
@@ -41,18 +13,44 @@ const Project = ({ title, type, detail, image }) => (
 )
 
 export default function Portfolio() {
+  const [projects, setProjects] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [usingFallback, setUsingFallback] = useState(false)
+
+  useEffect(() => {
+    let mounted = true
+
+    getPublishedWorks().then(({ works, usingFallback: fallback }) => {
+      if (!mounted) return
+      setProjects(works)
+      setUsingFallback(fallback)
+      setLoading(false)
+    })
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
   return (
     <section id="portfolio" className="section section-muted">
       <div className="container-max">
         <div className="section-heading">
           <p className="eyebrow">Selected work</p>
           <h2>Collections, experiments, and styled stories</h2>
+          {usingFallback && (
+            <p className="section-note">Connect Supabase to replace these sample works.</p>
+          )}
         </div>
-        <div className="project-grid">
-          {projects.map((project) => (
-            <Project key={project.title} {...project} />
-          ))}
-        </div>
+        {loading ? (
+          <p className="load-note">Loading portfolio...</p>
+        ) : (
+          <div className="project-grid">
+            {projects.map((project) => (
+              <Project key={project.id || project.title} {...project} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
