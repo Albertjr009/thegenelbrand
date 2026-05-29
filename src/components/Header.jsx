@@ -3,9 +3,9 @@ export default function Header() {
     <header className="site-header">
       <div className="container-max header-inner">
         <div className="brand-lockup">
-          <div className="brand-mark">AM</div>
+          <div className="brand-mark">GB</div>
           <div>
-            <div className="brand-name">Alex Morgan</div>
+            <div className="brand-name">Genevieve</div>
             <div className="brand-role">Fashion design student</div>
           </div>
         </div>

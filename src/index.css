@@ -477,18 +477,9 @@ dl dd {
   stroke-width: 1.8;
 }
 
-.app-logo-behance {
-  width: 34px;
-  height: 24px;
-  fill: currentColor;
-  stroke: none;
-}
-
-.app-logo-behance text {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -1px;
+.app-logo-linkedin {
+  width: 28px;
+  height: 28px;
 }
 
 .copyright {

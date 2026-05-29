@@ -6,10 +6,13 @@ const InstagramLogo = () => (
   </svg>
 )
 
-const BehanceLogo = () => (
-  <svg className="app-logo app-logo-behance" viewBox="0 0 48 24" aria-hidden="true">
-    <text x="3" y="17">Be</text>
-    <rect x="27" y="5" width="12" height="2" rx="1" />
+const LinkedInLogo = () => (
+  <svg className="app-logo app-logo-linkedin" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M6.5 9.5v8" />
+    <path d="M6.5 6.5h.01" />
+    <path d="M11 17.5v-8" />
+    <path d="M11 13.2c0-2.4 1.4-3.9 3.5-3.9 2 0 3 1.3 3 3.6v4.6" />
+    <rect x="3" y="3" width="18" height="18" rx="2.5" />
   </svg>
 )
 
@@ -19,32 +22,32 @@ export default function Footer() {
       <div className="container-max footer-inner">
         <div className="footer-grid">
           <div>
-            <div className="footer-name">Alex Morgan</div>
+            <div className="footer-name">Genevieve</div>
             <div className="footer-muted">Fashion Design Portfolio</div>
           </div>
           <div>
             <div className="footer-title">Contact</div>
-            <a href="mailto:alex.morgan@example.com" className="footer-link">
-              alex.morgan@example.com
+            <a href="mailto:genevieve@example.com" className="footer-link">
+              genevieve@example.com
             </a>
-            <a href="tel:+447000000000" className="footer-link">
-              +44 7000 000000
+            <a href="tel:+233000000000" className="footer-link">
+              +233 000 000 000
             </a>
           </div>
           <div>
             <div className="footer-title">Applications</div>
             <div className="app-button-row">
-              <a href="https://www.instagram.com/" className="app-logo-link" aria-label="Instagram">
+              <a href="https://www.instagram.com/thegenell_brand" className="app-logo-link" aria-label="Instagram">
                 <InstagramLogo />
               </a>
-              <a href="https://www.behance.net/" className="app-logo-link" aria-label="Behance">
-                <BehanceLogo />
+              <a href="https://www.linkedin.com/" className="app-logo-link" aria-label="LinkedIn">
+                <LinkedInLogo />
               </a>
             </div>
           </div>
         </div>
         <div className="copyright">
-          Copyright {new Date().getFullYear()} Alex Morgan. All rights reserved.
+          Copyright {new Date().getFullYear()} thegenelbrand. All rights reserved.
         </div>
       </div>
     </footer>

@@ -7,7 +7,7 @@ export default function Hero() {
       <div className="container-max hero-inner">
         <div className="hero-grid">
           <div>
-            <p className="eyebrow">BA Fashion Design Portfolio</p>
+            <p className="eyebrow">BSc Fashion Design Portfolio</p>
             <h1>Alex Morgan</h1>
             <p className="hero-copy">
               I design clothing through cut, texture, and research. My work explores
