@@ -1,5 +1,6 @@
-const ServiceCard = ({ title, children }) => (
+const ServiceCard = ({ icon, title, children }) => (
   <div className="skill-card">
+    <div className="skill-icon" aria-hidden="true">{icon}</div>
     <h3>{title}</h3>
     <p>{children}</p>
   </div>
@@ -14,15 +15,27 @@ export default function Services() {
           <h2>Skills built in the studio</h2>
         </div>
         <div className="skill-grid">
-          <ServiceCard title="Research and Concept">
+          <ServiceCard icon="01" title="Research and Concept">
             Moodboards, market research, visual narratives, and collection direction.
           </ServiceCard>
-          <ServiceCard title="Pattern and Draping">
+          <ServiceCard icon="02" title="Pattern and Draping">
             Toile development, flat pattern cutting, drape studies, and fit refinement.
           </ServiceCard>
-          <ServiceCard title="Styling and Lookbooks">
+          <ServiceCard icon="03" title="Styling and Lookbooks">
             Editorial styling, garment documentation, shoot planning, and art direction.
           </ServiceCard>
+        </div>
+        <div className="studio-marquee" aria-hidden="true">
+          <div>
+            <span>Textile Sampling</span>
+            <span>Technical Flats</span>
+            <span>Toile Fittings</span>
+            <span>Lookbook Direction</span>
+            <span>Garment Finishing</span>
+            <span>Textile Sampling</span>
+            <span>Technical Flats</span>
+            <span>Toile Fittings</span>
+          </div>
         </div>
       </div>
     </section>

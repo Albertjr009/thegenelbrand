@@ -3,8 +3,10 @@ import { getPublishedWorks } from '../lib/portfolioApi'
 
 const Project = ({ title, type, detail, image }) => (
   <article className="project-card">
-    <img src={image} alt={`${title} fashion portfolio project`} />
-    <div>
+    <div className="project-image">
+      <img src={image} alt={`${title} fashion portfolio project`} />
+    </div>
+    <div className="project-content">
       <p>{type}</p>
       <h3>{title}</h3>
       <span>{detail}</span>

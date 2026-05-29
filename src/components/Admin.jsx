@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { portfolioBucket, portfolioTable, isSupabaseConfigured, supabase } from '../lib/supabaseClient'
 
 const emptyWork = {
@@ -46,6 +46,19 @@ export default function Admin() {
   const [status, setStatus] = useState('')
   const [busy, setBusy] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
+  const publishedCount = works.filter((work) => work.is_published).length
+  const draftCount = works.length - publishedCount
+  const previewUploadUrl = useMemo(() => {
+    if (!imageFile) return ''
+    return URL.createObjectURL(imageFile)
+  }, [imageFile])
+  const previewImage = previewUploadUrl || form.image_url
+
+  useEffect(() => {
+    return () => {
+      if (previewUploadUrl) URL.revokeObjectURL(previewUploadUrl)
+    }
+  }, [previewUploadUrl])
 
   const loadWorks = async () => {
     try {
@@ -210,7 +223,7 @@ export default function Admin() {
   if (!isSupabaseConfigured) {
     return (
       <main className="admin-page">
-        <section className="admin-card">
+        <section className="admin-card admin-login">
           <p className="eyebrow">Supabase setup needed</p>
           <h1>Connect the project first</h1>
           <p className="admin-help">
@@ -229,27 +242,39 @@ export default function Admin() {
   if (!session) {
     return (
       <main className="admin-page">
-        <section className="admin-card admin-login">
-          <p className="eyebrow">Portfolio admin</p>
-          <h1>Sign in</h1>
-          <form className="admin-form" onSubmit={handleLogin}>
-            <label>
-              Email
-              <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" />
-            </label>
-            <label>
-              Password
-              <input
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                type="password"
-              />
-            </label>
-            <button className="button button-dark" disabled={busy} type="submit">
-              {busy ? 'Signing in...' : 'Sign in'}
-            </button>
-          </form>
-          {status && <p className="admin-status">{status}</p>}
+        <section className="admin-login-shell">
+          <div className="admin-login-art" aria-hidden="true">
+            <img
+              src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80"
+              alt=""
+            />
+            <div>
+              <span>Studio Control</span>
+              <strong>Update the portfolio without touching code.</strong>
+            </div>
+          </div>
+          <div className="admin-card admin-login">
+            <p className="eyebrow">Portfolio admin</p>
+            <h1>Sign in</h1>
+            <form className="admin-form" onSubmit={handleLogin}>
+              <label>
+                Email
+                <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" />
+              </label>
+              <label>
+                Password
+                <input
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  type="password"
+                />
+              </label>
+              <button className="button button-dark" disabled={busy} type="submit">
+                {busy ? 'Signing in...' : 'Sign in'}
+              </button>
+            </form>
+            {status && <p className="admin-status">{status}</p>}
+          </div>
         </section>
       </main>
     )
@@ -261,13 +286,28 @@ export default function Admin() {
         <div className="admin-topbar">
           <div>
             <p className="eyebrow">Portfolio admin</p>
-            <h1>Manage works</h1>
+            <h1>Studio dashboard</h1>
           </div>
           <div className="admin-actions">
             <a className="button button-light" href="/">View site</a>
             <button className="button button-dark" onClick={handleLogout} type="button">Sign out</button>
           </div>
         </div>
+
+        <section className="admin-stats" aria-label="Portfolio summary">
+          <div>
+            <span>Total works</span>
+            <strong>{works.length}</strong>
+          </div>
+          <div>
+            <span>Published</span>
+            <strong>{publishedCount}</strong>
+          </div>
+          <div>
+            <span>Drafts</span>
+            <strong>{draftCount}</strong>
+          </div>
+        </section>
 
         {!isAdmin && (
           <div className="admin-warning">
@@ -279,6 +319,15 @@ export default function Admin() {
         <section className="admin-layout">
           <form className="admin-card admin-form" onSubmit={saveWork}>
             <h2>{editingId ? 'Edit work' : 'Add work'}</h2>
+            <div className="admin-preview">
+              {previewImage ? (
+                <img src={previewImage} alt="" />
+              ) : (
+                <div>
+                  <span>Image preview</span>
+                </div>
+              )}
+            </div>
             <div className="form-grid">
               <label>
                 Title
